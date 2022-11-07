@@ -1,0 +1,9 @@
+{
+  "name": "coffee-mug-task",
+  "version": "0.0.0",
+  "description": "Recruitment assignment from Coffee Mug",
+  "main": "index.js",
+  "repository": "https://github.com/karmek-k/coffee-mug-task.git",
+  "author": "Bartosz Gleń",
+  "license": "AGPL-3.0-only"
+}
