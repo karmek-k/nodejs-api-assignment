@@ -2,7 +2,7 @@
   "name": "coffee-mug-task",
   "version": "0.0.0",
   "description": "Recruitment assignment from Coffee Mug",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/karmek-k/coffee-mug-task.git",
   "author": "Bartosz Gleń",
   "license": "AGPL-3.0-only",
@@ -14,7 +14,9 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13"
   },
   "scripts": {
     "build": "tsc",
