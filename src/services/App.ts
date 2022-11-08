@@ -3,15 +3,16 @@ import { inject, injectable } from 'inversify';
 import Config from '../config';
 import ProductController from '../controllers/ProductController';
 import ProductValidator from './validation/ProductValidator';
+import { symbols } from '../container/symbols';
 
 @injectable()
 export default class App {
   private app: express.Application;
 
   constructor(
-    @inject('Config') private config: Config,
-    @inject(ProductController) private controller: ProductController,
-    @inject(ProductValidator) private validator: ProductValidator
+    @inject(symbols.Config) private config: Config,
+    @inject(symbols.ProductController) private controller: ProductController,
+    @inject(symbols.ProductValidator) private validator: ProductValidator
   ) {
     this.app = express();
 

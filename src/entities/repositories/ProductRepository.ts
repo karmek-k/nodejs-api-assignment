@@ -2,10 +2,11 @@ import { Database } from 'sqlite3';
 import { inject, injectable } from 'inversify';
 import BaseRepository from './BaseRepository';
 import Product, { ProductCreateDto, ProductUpdateDto } from '../Product';
+import { symbols } from '../../container/symbols';
 
 @injectable()
 export default class ProductRepository extends BaseRepository<Product> {
-  constructor(@inject(Database) private db: Database) {
+  constructor(@inject(symbols.Database) private db: Database) {
     super();
   }
 

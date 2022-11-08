@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 import container from './container/container';
 import { Database } from 'sqlite3';
+import { symbols } from './container/symbols';
 
-const db = container.get<Database>(Database);
+const db = container.get<Database>(symbols.Database);
 
 db.run(
   `
