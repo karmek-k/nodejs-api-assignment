@@ -1,3 +1,6 @@
+import { injectable } from 'inversify';
+
+@injectable()
 export default abstract class BaseRepository<T> {
   abstract list(): Promise<T[]>;
   abstract details(id: number): Promise<T | null>;

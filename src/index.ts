@@ -1,5 +1,7 @@
-import app from './app';
+import 'reflect-metadata';
+import container from './container/container';
+import App from './services/App';
 
-const port = process.env.PORT ?? 8000;
+const app = container.get<App>(App);
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.run(port => `Listening on ${port}`);

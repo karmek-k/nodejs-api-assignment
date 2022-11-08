@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import BaseResourceController from './BaseResourceController';
 import { injectable } from 'inversify';
 import ProductRepository from '../entities/repositories/ProductRepository';

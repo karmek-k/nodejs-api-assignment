@@ -4,6 +4,7 @@ import ProductValidator from '../services/validation/ProductValidator';
 import ProductController from '../controllers/ProductController';
 import { Database } from 'sqlite3';
 import Config from '../config';
+import App from '../services/App';
 
 const container = new Container();
 
@@ -25,5 +26,7 @@ container.bind<Database>(Database).toDynamicValue(ctx => {
 container.bind<ProductRepository>(ProductRepository).to(ProductRepository);
 container.bind<ProductValidator>(ProductValidator).to(ProductValidator);
 container.bind<ProductController>(ProductController).to(ProductController);
+
+container.bind<App>(App).to(App);
 
 export default container;

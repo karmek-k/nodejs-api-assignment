@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+
 export default abstract class BaseResourceController {
   abstract getAll(req: Request, res: Response): void;
   abstract getOne(req: Request, res: Response): void;
