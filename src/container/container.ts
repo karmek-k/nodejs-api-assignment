@@ -1,8 +1,8 @@
-import { Container, interfaces } from 'inversify';
+import { Container } from 'inversify';
 import ProductRepository from '../entities/repositories/ProductRepository';
 import ProductValidator from '../services/validation/ProductValidator';
 import ProductController from '../controllers/ProductController';
-import { Database } from 'sqlite3';
+import Database from '../services/Database';
 import Config from '../config';
 import App from '../services/App';
 import { symbols } from './symbols';
@@ -14,19 +14,7 @@ container.bind<Config>(symbols.Config).toConstantValue({
   httpPort: process.env.PORT ?? 8000
 });
 
-container
-  .bind<interfaces.Factory<Database>>(symbols.Database)
-  .toFactory<Database>(ctx => {
-    return () => {
-      const dbName = ctx.container.get<Config>(symbols.Config).databaseFile;
-
-      return new Database(dbName, err => {
-        if (err) {
-          throw new Error(`Error while connecting to the db: ${err.message}`);
-        }
-      });
-    };
-  });
+container.bind<Database>(symbols.Database).to(Database);
 
 container
   .bind<ProductRepository>(symbols.ProductRepository)
@@ -36,6 +24,6 @@ container
   .bind<ProductController>(symbols.ProductController)
   .to(ProductController);
 
-container.bind<App>(symbols.App).to(App);
+container.bind<App>(symbols.App).to(App).inSingletonScope();
 
 export default container;

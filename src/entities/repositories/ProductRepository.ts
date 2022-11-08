@@ -1,8 +1,8 @@
-import { Database } from 'sqlite3';
 import { inject, injectable } from 'inversify';
 import BaseRepository from './BaseRepository';
 import Product, { ProductCreateDto, ProductUpdateDto } from '../Product';
 import { symbols } from '../../container/symbols';
+import Database from '../../services/Database';
 
 @injectable()
 export default class ProductRepository extends BaseRepository<Product> {
@@ -11,7 +11,7 @@ export default class ProductRepository extends BaseRepository<Product> {
   }
 
   async create(dto: ProductCreateDto): Promise<Product> {
-    const productOrNull = await this.runQueryOne(
+    const productOrNull = await this.db.runQueryOne<Product>(
       `
       INSERT INTO products (name, price, updateDate)
       VALUES (?, ?, ?)
@@ -23,23 +23,25 @@ export default class ProductRepository extends BaseRepository<Product> {
   }
 
   async delete(id: number): Promise<Product | null> {
-    return await this.runQueryOne('DELETE FROM products WHERE id = ?', [
-      id.toString()
-    ]);
+    return await this.db.runQueryOne<Product>(
+      'DELETE FROM products WHERE id = ?',
+      [id.toString()]
+    );
   }
 
   async details(id: number): Promise<Product | null> {
-    return await this.runQueryOne('SELECT * FROM products WHERE id = ?', [
-      id.toString()
-    ]);
+    return await this.db.runQueryOne<Product>(
+      'SELECT * FROM products WHERE id = ?',
+      [id.toString()]
+    );
   }
 
   async list(): Promise<Product[]> {
-    return await this.runQuery('SELECT * FROM products');
+    return await this.db.runQuery<Product>('SELECT * FROM products');
   }
 
   async update(dto: ProductUpdateDto): Promise<Product | null> {
-    return await this.runQueryOne(
+    return await this.db.runQueryOne<Product>(
       `
       UPDATE products 
       SET name = ?, price = ?, updateDate = ?
@@ -52,27 +54,5 @@ export default class ProductRepository extends BaseRepository<Product> {
         dto.id.toString()
       ]
     );
-  }
-
-  // TODO: clean up below code
-  private runQuery(sql: string, params: string[] = []): Promise<Product[]> {
-    return new Promise((resolve, reject) => {
-      this.db.run(sql, params, (err: any, rows: Array<Product>) => {
-        if (err) {
-          reject(err);
-        }
-
-        resolve(rows);
-      });
-    });
-  }
-
-  private async runQueryOne(
-    sql: string,
-    params: string[] = []
-  ): Promise<Product | null> {
-    const rows = await this.runQuery(sql, params);
-
-    return rows.length > 0 ? rows[0] : null;
   }
 }
