@@ -9,13 +9,13 @@ export default class Database {
 
   build(): Promise<sqlite3.Database> {
     return new Promise((resolve, reject) => {
-      resolve(
-        new sqlite3.Database(this.config.databaseFile, err => {
-          if (err) {
-            reject(`Error while connecting to the db: ${err.message}`);
-          }
-        })
-      );
+      const db = new sqlite3.Database(this.config.databaseFile, err => {
+        if (err) {
+          reject(`Error while connecting to the db: ${err.message}`);
+        }
+      });
+
+      resolve(db);
     });
   }
 
@@ -23,7 +23,7 @@ export default class Database {
     const db = await this.build();
 
     return new Promise((resolve, reject) => {
-      db.run(sql, params, (err: any, rows: Array<T>) => {
+      db.all(sql, params, (err: any, rows: Array<T>) => {
         if (err) {
           reject(err);
         }
