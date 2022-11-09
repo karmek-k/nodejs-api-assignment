@@ -1,6 +1,9 @@
 import { injectable } from 'inversify';
 import BaseRepository from './BaseRepository';
-import Product, { ProductCreateDto, ProductUpdateDto } from '../Product';
+import Product, {
+  ProductCreateDto,
+  ProductUpdateDto
+} from '../../entities/Product';
 
 @injectable()
 export default class ProductRepository extends BaseRepository<Product> {

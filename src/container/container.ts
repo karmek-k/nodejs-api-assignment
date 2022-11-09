@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import ProductRepository from '../entities/repositories/ProductRepository';
+import ProductRepository from '../services/repositories/ProductRepository';
 import ProductValidator from '../services/validation/ProductValidator';
 import ProductController from '../controllers/ProductController';
 import Database from '../services/Database';

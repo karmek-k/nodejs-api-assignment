@@ -1,5 +1,5 @@
 import { inject } from 'inversify';
-import ProductRepository from '../entities/repositories/ProductRepository';
+import ProductRepository from '../services/repositories/ProductRepository';
 import { symbols } from '../container/symbols';
 import {
   BaseHttpController,

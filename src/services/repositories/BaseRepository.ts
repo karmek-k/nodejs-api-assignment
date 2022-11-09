@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { symbols } from '../../container/symbols';
-import Database from '../../services/Database';
+import Database from '../Database';
 
 @injectable()
 export default abstract class BaseRepository<T> {
