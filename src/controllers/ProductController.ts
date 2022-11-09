@@ -1,10 +1,19 @@
 import { Request, Response } from 'express';
 import BaseResourceController from './BaseResourceController';
-import { inject, injectable } from 'inversify';
+import { inject } from 'inversify';
 import ProductRepository from '../entities/repositories/ProductRepository';
 import { symbols } from '../container/symbols';
+import {
+  controller,
+  httpDelete,
+  httpGet,
+  httpPost,
+  httpPut,
+  request,
+  response
+} from 'inversify-express-utils';
 
-@injectable()
+@controller('/products')
 export default class ProductController extends BaseResourceController {
   constructor(
     @inject(symbols.ProductRepository) private repo: ProductRepository
@@ -12,17 +21,28 @@ export default class ProductController extends BaseResourceController {
     super();
   }
 
-  async create(req: Request, res: Response): Promise<void> {
+  @httpPost('/')
+  async create(
+    @request() req: Request,
+    @response() res: Response
+  ): Promise<void> {
     res.json(await this.repo.create(req.body));
   }
 
-  delete(req: Request, res: Response): void {}
+  @httpDelete('/:id')
+  delete(@request() req: Request, @response() res: Response): void {}
 
-  async getAll(req: Request, res: Response): Promise<void> {
+  @httpGet('/')
+  async getAll(
+    @request() req: Request,
+    @response() res: Response
+  ): Promise<void> {
     res.json(await this.repo.list());
   }
 
-  getOne(req: Request, res: Response): void {}
+  @httpGet('/:id')
+  getOne(@request() req: Request, @response() res: Response): void {}
 
-  update(req: Request, res: Response): void {}
+  @httpPut('/:id')
+  update(@request() req: Request, @response() res: Response): void {}
 }

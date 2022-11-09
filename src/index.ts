@@ -1,8 +1,10 @@
 import 'reflect-metadata';
 import container from './container/container';
-import App from './services/App';
 import { symbols } from './container/symbols';
+import server from './container/app';
+import Config from './config';
 
-const app = container.get<App>(symbols.App);
+const { httpPort } = container.get<Config>(symbols.Config);
+const app = server.build();
 
-app.run(port => `Listening on ${port}`);
+app.listen(httpPort, () => console.log(`Listening on ${httpPort}`));
