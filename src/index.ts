@@ -7,4 +7,4 @@ import Config from './config';
 const { httpPort } = container.get<Config>(symbols.Config);
 const app = server.build();
 
-app.listen(httpPort, () => console.log(`Listening on ${httpPort}`));
+app.listen(httpPort, () => console.log(`Listening on port ${httpPort}`));
