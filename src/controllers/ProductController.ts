@@ -36,39 +36,45 @@ export default class ProductController extends BaseHttpController {
   async getOne(@requestParam('id') id: number): Promise<Product | JsonResult> {
     const item = await this.repo.details(id);
 
-    if (item) {
-      return item;
+    if (!item) {
+      return this.json({ msg: 'Not found' }, 404);
     }
 
-    return this.json({ msg: 'Not found' }, 404);
+    return item;
   }
 
   @httpPost('/')
-  async create(@requestBody() dto: ProductCreateDto): Promise<Product> {
-    return this.repo.create(dto);
+  async create(
+    @requestBody() dto: ProductCreateDto
+  ): Promise<Product | JsonResult> {
+    if (!this.validator.validate(dto)) {
+      return this.json({ msg: 'Validation failed' }, 400);
+    }
+
+    return this.json(await this.repo.create(dto), 201);
   }
 
   @httpPut('/')
   async update(
     @requestBody() dto: ProductUpdateDto
   ): Promise<Product | JsonResult> {
-    const item = await this.repo.update(dto);
-
-    if (item) {
-      return item;
+    if (!this.validator.validate(dto)) {
+      return this.json({ msg: 'Validation failed' }, 400);
     }
 
-    return this.json({ msg: 'Not found' }, 404);
+    const item = await this.repo.update(dto);
+
+    if (!item) {
+      return this.json({ msg: 'Not found' }, 404);
+    }
+
+    return item;
   }
 
   @httpDelete('/:id')
   async delete(@requestParam('id') id: number): Promise<Product | JsonResult> {
-    const item = await this.repo.delete(id);
+    await this.repo.delete(id);
 
-    if (item) {
-      return item;
-    }
-
-    return this.json({ msg: 'Not found' }, 404);
+    return this.json({ msg: 'Deleted' }, 204);
   }
 }
