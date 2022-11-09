@@ -14,15 +14,17 @@ export default class App {
     @inject(symbols.ProductController) private controller: ProductController,
     @inject(symbols.ProductValidator) private validator: ProductValidator
   ) {
-    this.app = express();
+    const app = express();
 
-    this.mountMiddleware();
-    this.mountRoutes();
+    this.mountMiddleware(app);
+    this.mountRoutes(app);
+
+    this.app = app;
   }
 
-  private mountRoutes() {
-    this.app.get('/products', this.controller.getAll);
-    this.app
+  private mountRoutes(app: express.Application) {
+    app.get('/products', this.controller.getAll);
+    app
       .route('/products/:id')
       .get(this.controller.getOne)
       .post(this.validationMiddleware, this.controller.create)
@@ -42,8 +44,8 @@ export default class App {
     };
   }
 
-  private mountMiddleware() {
-    this.app.use(express.json());
+  private mountMiddleware(app: express.Application) {
+    app.use(express.json());
   }
 
   run(callback: (port: number | string) => string): void {
