@@ -1,7 +1,11 @@
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { symbols } from '../../container/symbols';
+import Database from '../../services/Database';
 
 @injectable()
 export default abstract class BaseRepository<T> {
+  constructor(@inject(symbols.Database) protected db: Database) {}
+
   abstract list(): Promise<T[]>;
   abstract details(id: number): Promise<T | null>;
   abstract update(dto: Partial<T>): Promise<T | null>;

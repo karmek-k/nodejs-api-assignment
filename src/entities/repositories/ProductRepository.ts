@@ -1,15 +1,9 @@
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 import BaseRepository from './BaseRepository';
 import Product, { ProductCreateDto, ProductUpdateDto } from '../Product';
-import { symbols } from '../../container/symbols';
-import Database from '../../services/Database';
 
 @injectable()
 export default class ProductRepository extends BaseRepository<Product> {
-  constructor(@inject(symbols.Database) private db: Database) {
-    super();
-  }
-
   async create(dto: ProductCreateDto): Promise<Product> {
     const productOrNull = await this.db.runQueryOne<Product>(
       `
