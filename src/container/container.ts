@@ -4,7 +4,6 @@ import ProductValidator from '../services/validation/ProductValidator';
 import ProductController from '../controllers/ProductController';
 import Database from '../services/Database';
 import Config from '../config';
-import App from '../services/App';
 import { symbols } from './symbols';
 
 const container = new Container();
@@ -23,7 +22,5 @@ container.bind<ProductValidator>(symbols.ProductValidator).to(ProductValidator);
 container
   .bind<ProductController>(symbols.ProductController)
   .to(ProductController);
-
-container.bind<App>(symbols.App).to(App).inSingletonScope();
 
 export default container;
