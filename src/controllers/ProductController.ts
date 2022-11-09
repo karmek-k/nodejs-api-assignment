@@ -15,14 +15,18 @@ import Product, {
   ProductCreateDto,
   ProductUpdateDto
 } from '../entities/Product';
-import ProductValidator from '../services/validation/ProductValidator';
+import ProductCreateValidator from '../services/validation/ProductCreateValidator';
 import { JsonResult } from 'inversify-express-utils/lib/results';
+import ProductUpdateValidator from '../services/validation/ProductUpdateValidator';
 
 @controller('/products')
 export default class ProductController extends BaseHttpController {
   constructor(
     @inject(symbols.ProductRepository) private repo: ProductRepository,
-    @inject(symbols.ProductValidator) private validator: ProductValidator
+    @inject(symbols.ProductCreateValidator)
+    private createValidator: ProductCreateValidator,
+    @inject(symbols.ProductUpdateValidator)
+    private updateValidator: ProductUpdateValidator
   ) {
     super();
   }
@@ -47,7 +51,7 @@ export default class ProductController extends BaseHttpController {
   async create(
     @requestBody() dto: ProductCreateDto
   ): Promise<Product | JsonResult> {
-    if (!this.validator.validate(dto)) {
+    if (!this.createValidator.validate(dto)) {
       return this.json({ msg: 'Validation failed' }, 400);
     }
 
@@ -58,17 +62,13 @@ export default class ProductController extends BaseHttpController {
   async update(
     @requestBody() dto: ProductUpdateDto
   ): Promise<Product | JsonResult> {
-    if (!this.validator.validate(dto)) {
+    if (!this.updateValidator.validate(dto)) {
       return this.json({ msg: 'Validation failed' }, 400);
     }
 
-    const item = await this.repo.update(dto);
+    await this.repo.update(dto);
 
-    if (!item) {
-      return this.json({ msg: 'Not found' }, 404);
-    }
-
-    return item;
+    return this.json({ msg: 'Updated' });
   }
 
   @httpDelete('/:id')

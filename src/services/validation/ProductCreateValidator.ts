@@ -3,9 +3,11 @@ import Product from '../../entities/Product';
 import { injectable } from 'inversify';
 
 @injectable()
-export default class ProductValidator implements ValidatorInterface<Product> {
+export default class ProductCreateValidator
+  implements ValidatorInterface<Product>
+{
   validate(entity: Partial<Product>): boolean {
-    if (!entity.name) {
+    if (!entity.name || !entity.price) {
       return false;
     }
 
