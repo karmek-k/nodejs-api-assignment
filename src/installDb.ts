@@ -1,25 +1,22 @@
 import 'reflect-metadata';
 import container from './container/container';
-import { Database } from 'sqlite3';
+import Database from './services/Database';
 import { symbols } from './container/symbols';
 
 const db = container.get<Database>(symbols.Database);
 
-db.run(
+db.runQuery(
   `
 CREATE TABLE IF NOT EXISTS products (
-  id INT PRIMARY KEY NOT NULL,
+  id INTEGER PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
-  price INT NOT NULL,
+  price INTEGER NOT NULL,
   updateDate TEXT NOT NULL
-);`,
-  err => {
-    if (err) {
-      console.error(err.message);
+);`
+)
+  .then(() => console.log('Database created successfully'))
+  .catch(err => {
+    console.error(err.message);
 
-      process.exit(1);
-    }
-
-    console.log('Database created successfully');
-  }
-);
+    process.exit(1);
+  });
