@@ -55,7 +55,9 @@ export default class ProductController extends BaseHttpController {
       return this.json({ msg: 'Validation failed' }, 400);
     }
 
-    return this.json(await this.repo.create(dto), 201);
+    await this.repo.create(dto);
+
+    return this.json({ msg: 'Created' }, 201);
   }
 
   @httpPut('/')
