@@ -23,13 +23,45 @@ describe('ProductCreateValidator tests', () => {
     expect(validator.validate(payload)).toBeTruthy();
   });
 
-  it('should return true for a name that is exactly 100 characters', function () {});
+  it('should return true for a name that is exactly 100 characters', function () {
+    const payload: Partial<Product> = {
+      name: 'a'.repeat(100),
+      price: 100
+    };
 
-  it('should return false for a name that exceeds 100 characters', function () {});
+    expect(validator.validate(payload)).toBeTruthy();
+  });
 
-  it('should return false for a name that is exactly 0 characters', function () {});
+  it('should return false for a name that exceeds 100 characters', function () {
+    const payload: Partial<Product> = {
+      name: 'a'.repeat(101),
+      price: 100
+    };
 
-  it('should return false for a name that is null', function () {});
+    expect(validator.validate(payload)).toBeFalsy();
+  });
 
-  it('should return false for an empty payload', function () {});
+  it('should return false for a name that is exactly 0 characters', function () {
+    const payload: Partial<Product> = {
+      name: '',
+      price: 100
+    };
+
+    expect(validator.validate(payload)).toBeFalsy();
+  });
+
+  it('should return false for a name that is undefined', function () {
+    const payload: Partial<Product> = {
+      name: undefined,
+      price: 100
+    };
+
+    expect(validator.validate(payload)).toBeFalsy();
+  });
+
+  it('should return false for an empty payload', function () {
+    const payload: Partial<Product> = {};
+
+    expect(validator.validate(payload)).toBeFalsy();
+  });
 });
