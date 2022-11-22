@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import Product from '../../../src/entities/Product';
 import ValidatorInterface from '../../../src/services/validation/ValidatorInterface';
 import container from '../../../src/container/container';
@@ -9,7 +10,7 @@ describe('ProductUpdateValidator tests', function () {
 
   beforeEach(() => {
     validator = container.get<ProductUpdateValidator>(
-      symbols.ProductCreateValidator
+      symbols.ProductUpdateValidator
     );
   });
 
@@ -23,7 +24,12 @@ describe('ProductUpdateValidator tests', function () {
     expect(validator.validate(payload)).toBeTruthy();
   });
 
-  it('should return false if there is no id', function () {});
+  it('should return false if there is no id', function () {
+    const payload: Partial<Product> = {
+      name: 'keyboard',
+      price: 100
+    };
 
-  it('should return false if id is null', function () {});
+    expect(validator.validate(payload)).toBeFalsy();
+  });
 });
