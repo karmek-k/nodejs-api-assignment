@@ -58,3 +58,13 @@ Example payload:
 ```
 
 - `DELETE /products/1` - Delete a product
+
+## Testing
+
+### Unit tests (via Jest)
+
+```yarn test```
+
+### Style check (via Prettier)
+
+```yarn lint:style```
