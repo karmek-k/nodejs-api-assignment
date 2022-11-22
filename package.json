@@ -28,7 +28,7 @@
     "build:dev": "tsc -w",
     "start": "node .",
     "start:dev": "nodemon .",
-    "lint:style": "prettier -c src",
+    "lint:style": "prettier -c src -c tests",
     "install-db": "yarn build && node dist/installDb.js",
     "test": "jest"
   }
