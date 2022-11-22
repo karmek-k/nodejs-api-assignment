@@ -29,6 +29,7 @@
     "start": "node .",
     "start:dev": "nodemon .",
     "lint:style": "prettier -c src",
-    "install-db": "yarn build && node dist/installDb.js"
+    "install-db": "yarn build && node dist/installDb.js",
+    "test": "jest"
   }
 }
